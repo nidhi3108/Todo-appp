@@ -1,6 +1,6 @@
 //create global variable to store old todo
 var todos=[];
-
+var idx=-1;
 
 
 //create structure of todo
@@ -36,19 +36,21 @@ function eventhandler(event){
     var textshow=document.getElementById("text")
     var value=textshow.value;
     if(KeyCode=="Enter"&& value!==""){
+        idx=idx+1;
         event.preventDefault();
     var leftcontainer=document.createElement("div")
     var subheading1=document.createElement("div")
     var taskheading=document.createElement("p")
     var subheading2=document.createElement("div")
-    var checkbox=document.createElement("button")    //checkbox done
+    var checkbox=document.createElement("input")    //checkbox done
     var checkbutton=document.createElement("button")  //edit button
     var crossbutton=document.createElement("button")   //del button
     checkbutton.setAttribute("id","check")
     crossbutton.setAttribute("id","cross")
     checkbox.setAttribute("id","done")
+    checkbox.setAttribute("type","checkbox")
     
-    checkbox.type="checkbox"
+    // checkbox.type="checkbox"
     checkbutton.innerHTML="edit"
     crossbutton.innerHTML="delete"
     todos.push(value);
@@ -64,6 +66,7 @@ function eventhandler(event){
     leftcontainer.appendChild(subheading2)
 
     leftcontainer.setAttribute("class","inputcontainer")
+    leftcontainer.setAttribute('data-foo',idx)    //,,,,,,,,,,,,,,,,,,,,,give idx
     taskheading.innerHTML=value;
 
     var leftdiv=document.getElementById("left")
@@ -99,14 +102,19 @@ function removehandler(e){
    remove.remove();
    var a=localStorage.getItem("todos")
    a=JSON.parse(a);
-   let idx = a.indexOf(e.target.parentNode.parentNode.children[0].children[0].innerHTML);
-   console.log(idx);
-   dellocal();
+   var idx = e.target.parentNode.parentNode;
+//    console.log(idx);
+   var index=idx.getAttribute('data-foo')
+//    console.log(index);
+   dellocal(index);
 }
+
  
-function dellocal(idx){
+function dellocal(index){
     var a = JSON.parse(localStorage.getItem("todos"));
-  a.splice(idx, 1);
+    console.log(index);
+  a.splice((index-1), 1);
+  console.log(a);
   localStorage.setItem("todos", JSON.stringify(a));
 }
 
@@ -127,19 +135,20 @@ if(storedtodos!== null)
 }
 
 todos.forEach(function(value){   //foreach
-
+     idx=idx+1;
     var leftcontainer=document.createElement("div")
     var subheading1=document.createElement("div")
     var taskheading=document.createElement("p")
     var subheading2=document.createElement("div")
-    var checkbox=document.createElement("button")    //checkbox done
+    var checkbox=document.createElement("input")    //checkbox done
     var checkbutton=document.createElement("button")  //edit button
     var crossbutton=document.createElement("button")   //del button
     checkbutton.setAttribute("id","check")
     crossbutton.setAttribute("id","cross")
     checkbox.setAttribute("id","done")
+    checkbox.setAttribute("type","checkbox")
     
-    checkbox.type="checkbox"
+    // checkbox.type="checkbox"
     checkbutton.innerHTML="edit"
     crossbutton.innerHTML="delete"
     
@@ -154,6 +163,7 @@ todos.forEach(function(value){   //foreach
     leftcontainer.appendChild(subheading2)
 
     leftcontainer.setAttribute("class","inputcontainer")
+    leftcontainer.setAttribute('data-foo',idx)  ////////////////////////give idx........
     taskheading.innerHTML=value;
 
     var leftdiv=document.getElementById("left")
