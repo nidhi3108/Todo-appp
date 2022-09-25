@@ -36,7 +36,6 @@ function eventhandler(event){
     var textshow=document.getElementById("text")
     var value=textshow.value;
     if(KeyCode=="Enter"&& value!==""){
-        idx=idx+1;
         event.preventDefault();
     var leftcontainer=document.createElement("div")
     var subheading1=document.createElement("div")
@@ -67,6 +66,7 @@ function eventhandler(event){
 
     leftcontainer.setAttribute("class","inputcontainer")
     leftcontainer.setAttribute('data-foo',idx)    //,,,,,,,,,,,,,,,,,,,,,give idx
+    idx=idx+1;
     taskheading.innerHTML=value;
 
     var leftdiv=document.getElementById("left")
@@ -78,25 +78,6 @@ function eventhandler(event){
 }
 
 
-
-//delete todo
-// function removehandler(e){
-//    console.log(e.target);
-//    var remove =e.target.parentNode.parentNode;
-//    remove.remove();
-//    var t=[];
-//    var a=localStorage.getItem("todos")
-//    a=JSON.parse(a);
-//    console.log(a);
-//    var b=e.target.parentNode.parentNode.children[0].children[0].innerHTML;
-//    console.log(b)
-//     t=a.filter((g)=>{
-//     if(g!=b){
-//         return g;
-//     }
-// })
-//    localStorage.setItem("todos", JSON.stringify(t));
-// }
 function removehandler(e){
     var remove =e.target.parentNode.parentNode;
    remove.remove();
@@ -111,9 +92,9 @@ function removehandler(e){
 
 function dellocal(index) {
     var a = JSON.parse(localStorage.getItem("todos"));
-    console.log(a);
+    // console.log(a);
     a.splice((index), 1);
-    console.log(a);
+    // console.log(a);
     localStorage.setItem("todos", JSON.stringify(a));
     window.location.reload();
 }
@@ -134,7 +115,6 @@ if(storedtodos!== null)
 }
 
 todos.forEach(function(value){   //foreach
-     idx=idx+1;
     var leftcontainer=document.createElement("div")
     var subheading1=document.createElement("div")
     var taskheading=document.createElement("p")
@@ -163,6 +143,7 @@ todos.forEach(function(value){   //foreach
 
     leftcontainer.setAttribute("class","inputcontainer")
     leftcontainer.setAttribute('data-foo',idx)  ////////////////////////give idx........
+    idx=idx+1;
     taskheading.innerHTML=value;
 
     var leftdiv=document.getElementById("left")
@@ -174,22 +155,36 @@ todos.forEach(function(value){   //foreach
 
 //edit todo
 function edithandler(e){
-    console.log(e.target);
-    var edit=e.target.parentNode.parentNode.children[0].children[0].innerHTML;
-    console.log(edit)
-    // var bool=true;
-    // var KeyCode=edit;
-    // console.log(KeyCode)
-    var editbox=document.createElement("textarea");
-        leftcontainer.removeChild(subheading1);
-        leftcontainer.appendChild(editbox);
-    // edit.addEventListener("click",edittodo)
+    var edit=e.target.parentNode.parentNode.children[1].children[1].innerHTML;
+    var idx = e.target.parentNode.parentNode;
+    var index=idx.getAttribute('data-foo')
+    // console.log(index)
+    var h2=e.target.parentNode.parentNode.children[0].children[0];
+    console.log(h2);
+    var h1=e.target.parentNode.parentNode.children[0];
+    console.log(h1);
+    var inp=document.createElement("input")
+    inp.setAttribute("type","text")
+    if(edit=="edit"){
+        e.target.parentNode.parentNode.children[1].children[1].innerHTML="save";
     }
-    // function edittodo(event)
-    // {
-    //     var editbox=document.createElement("textarea");
-    //     leftcontainer.removeChild(subheading1);
-    //     leftcontainer.appendChild(editbox);
-    // }
+    else{
+        e.target.parentNode.parentNode.children[1].children[1].innerHTML="edit"
+    }
     
+    edittodo(h1,h2,inp,index);
+}
+function edittodo(h1,h2,inp,index)
+{
+    console.log(index);
+        h1.removeChild(h2)
+        // var a=localStorage.getItem("todos")
+        // a=JSON.parse(a);
+        // a.splice((index), 1);
+        // localStorage.setItem("todos", JSON.stringify(a));
+        // window.location.reload();
+        h1.appendChild(inp)
+
+    
+}
     
