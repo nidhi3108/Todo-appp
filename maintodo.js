@@ -1,6 +1,6 @@
 //create global variable to store old todo
 var todos=[];
-var idx=-1;
+var idx=0;
 
 
 //create structure of todo
@@ -109,15 +109,14 @@ function removehandler(e){
    dellocal(index);
 }
 
- 
-function dellocal(index){
+function dellocal(index) {
     var a = JSON.parse(localStorage.getItem("todos"));
-    console.log(index);
-  a.splice((index-1), 1);
-  console.log(a);
-  localStorage.setItem("todos", JSON.stringify(a));
+    console.log(a);
+    a.splice((index), 1);
+    console.log(a);
+    localStorage.setItem("todos", JSON.stringify(a));
+    window.location.reload();
 }
-
 
 
 
