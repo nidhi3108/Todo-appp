@@ -114,10 +114,10 @@ function dellocal(index) {
     var a = JSON.parse(localStorage.getItem("todos"));
     console.log(a);
     console.log('index line 115', index);
-    a.splice((index), 1);
+    a.splice((index), 1);   //
     console.log(a);
     localStorage.setItem("todos", JSON.stringify(a));
-    window.location.reload()
+    window.location.reload()        //add
 }
 
 
