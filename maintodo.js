@@ -103,7 +103,7 @@ function dellocal(index) {
 
 
 todo();
- 
+
 
 
 
@@ -131,7 +131,7 @@ todos.forEach(function(value){   //foreach
     checkbutton.innerHTML="edit"
     crossbutton.innerHTML="delete"
     
-
+    
     subheading1.appendChild(taskheading)
     subheading2.appendChild(checkbox)
     subheading2.appendChild(checkbutton)
@@ -140,7 +140,7 @@ todos.forEach(function(value){   //foreach
     subheading1.setAttribute("id","heading1")
     subheading2.setAttribute("id","heading2")
     leftcontainer.appendChild(subheading2)
-
+    
     leftcontainer.setAttribute("class","inputcontainer")
     leftcontainer.setAttribute('data-foo',idx)  ////////////////////////give idx........
     idx=idx+1;
@@ -159,32 +159,46 @@ function edithandler(e){
     var idx = e.target.parentNode.parentNode;
     var index=idx.getAttribute('data-foo')
     // console.log(index)
-    var h2=e.target.parentNode.parentNode.children[0].children[0];
-    console.log(h2);
-    var h1=e.target.parentNode.parentNode.children[0];
-    console.log(h1);
+    var h1=e.target.parentNode.parentNode.children[0];  //subheading1
+    // console.log(h1);     
+    var h2=e.target.parentNode.parentNode.children[0].children[0];   //whole p tag includinf todo
+    // console.log(h2);
+    var h3=e.target.parentNode.parentNode.children[0].children[0].innerHTML;
     var inp=document.createElement("input")
+    inp.setAttribute("id","inp")
     inp.setAttribute("type","text")
+   
+    edittodo(h1,h2,inp,index,edit,e,h3);
+}
+function edittodo(h1,h2,inp,index,edit,e,h3)
+{
+    console.log(index);
+    var a=localStorage.getItem("todos")
+    a=JSON.parse(a);
     if(edit=="edit"){
+        h1.replaceChild(inp,h2)
+        console.log(a);
+        a.splice((index),1)
+        localStorage.setItem("todos", JSON.stringify(a));
+        window.location.reload();
         e.target.parentNode.parentNode.children[1].children[1].innerHTML="save";
     }
     else{
+        h1.replaceChild(h2,inp)
+        var newinp=document.getElementById("inp")
+        var newdata =newinp.value;
+        console.log(newdata);
+        if(inp!=null)
+        {
+            a.splice((index),0,newdata)
+            localStorage.setItem("todos", JSON.stringify(a));  
+        }
+        else{
+            a.splice((index),0,h3)
+            localStorage.setItem("todos", JSON.stringify(a));
+        }
         e.target.parentNode.parentNode.children[1].children[1].innerHTML="edit"
+        // savetodo(inp,h1,h2)
     }
-    
-    edittodo(h1,h2,inp,index);
-}
-function edittodo(h1,h2,inp,index)
-{
-    console.log(index);
-        h1.removeChild(h2)
-        // var a=localStorage.getItem("todos")
-        // a=JSON.parse(a);
-        // a.splice((index), 1);
-        // localStorage.setItem("todos", JSON.stringify(a));
-        // window.location.reload();
-        h1.appendChild(inp)
-
-    
 }
     
