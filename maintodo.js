@@ -154,51 +154,101 @@ todos.forEach(function(value){   //foreach
 
 
 //edit todo
-function edithandler(e){
-    var edit=e.target.parentNode.parentNode.children[1].children[1].innerHTML;
-    var idx = e.target.parentNode.parentNode;
-    var index=idx.getAttribute('data-foo')
-    // console.log(index)
-    var h1=e.target.parentNode.parentNode.children[0];  //subheading1
-    // console.log(h1);     
-    var h2=e.target.parentNode.parentNode.children[0].children[0];   //whole p tag includinf todo
-    // console.log(h2);
-    var h3=e.target.parentNode.parentNode.children[0].children[0].innerHTML;
-    var inp=document.createElement("input")
-    inp.setAttribute("id","inp")
-    inp.setAttribute("type","text")
+// function edithandler(e){
+//     var editString=e.target.parentNode.parentNode.children[1].children[1].innerHTML;
+//     console.log(editString);
+//     var idx = e.target.parentNode.parentNode;
+//     var index=idx.getAttribute('data-foo')
+//     console.log(index)
+//     var subHeading1=e.target.parentNode.parentNode.children[0];  //subheading1
+//     console.log(subHeading1);     
+//     var todoElement=e.target.parentNode.parentNode.children[0].children[0];   //whole p tag includinf todo
+//     console.log(todoElement);
+//     var todoText=todoElement.innerHTML;
+//     var inp=document.createElement("input")
+//     inp.setAttribute("id","inp")
+//     inp.setAttribute("type","text")
    
-    edittodo(h1,h2,inp,index,edit,e,h3);
-}
-function edittodo(h1,h2,inp,index,edit,e,h3)
+//     editTodo(subHeading1,todoElement,inp,index,editString,todoText);
+// }
+// function editTodo(subHeading,pElement,inp,index,edit,h3)
+// {
+//     console.log(index);
+//     var a=localStorage.getItem("todos")
+//     a=JSON.parse(a);
+//     if(edit=="edit"){
+//         subHeading.replaceChild(inp,pElement)
+//         console.log(a);
+//         a.splice((index),1)
+//         localStorage.setItem("todos", JSON.stringify(a));
+//         window.location.reload();
+//         e.target.parentNode.parentNode.children[1].children[1].innerHTML="save";
+//     }
+//     else{
+//         subHeading.replaceChild(pElement,inp)
+//         var newinp=document.getElementById("inp")
+//         var newdata =newinp.value;
+//         console.log(newdata);
+//         if(inp!=null)
+//         {
+//             a.splice((index),0,newdata)
+//             localStorage.setItem("todos", JSON.stringify(a));  
+//         }
+//         else{
+//             a.splice((index),0,h3)
+//             localStorage.setItem("todos", JSON.stringify(a));
+//         }
+//         e.target.parentNode.parentNode.children[1].children[1].innerHTML="edit"
+//         // savetodo(inp,h1,h2)
+//     }
+// }
+
+var oldText;
+
+function edithandler(e)
 {
+    var editSaveToggleBtn = e.target;                                   // 
+    var editSaveBtnString = e.target.innerText;                                 
+    var todo= JSON.parse(localStorage.getItem('todos'));
+    var todoMainElement = e.target.parentNode.parentNode;               // input container
+    var paraInputToggleElement=todoMainElement.children[0].children[0];
+    var parentOfParaElement = paraInputToggleElement.parentNode;        //heading 1
+    var index=todoMainElement.getAttribute('data-foo');                 // index
+    
+    
+    console.log(editSaveBtnString);
+    console.log(todo);
+    console.log(todoMainElement);
+    console.log(paraInputToggleElement);
     console.log(index);
-    var a=localStorage.getItem("todos")
-    a=JSON.parse(a);
-    if(edit=="edit"){
-        h1.replaceChild(inp,h2)
-        console.log(a);
-        a.splice((index),1)
-        localStorage.setItem("todos", JSON.stringify(a));
-        window.location.reload();
-        e.target.parentNode.parentNode.children[1].children[1].innerHTML="save";
+    console.log(parentOfParaElement);
+    if(editSaveBtnString == 'edit')
+    {
+        var inputElement = document.createElement('input');
+        oldText =paraInputToggleElement.innerText;
+        console.log(oldText);
+        parentOfParaElement.innerHTML = '';
+        parentOfParaElement.appendChild(inputElement);
+        editSaveToggleBtn.innerText = 'save';
+
+
     }
-    else{
-        h1.replaceChild(h2,inp)
-        var newinp=document.getElementById("inp")
-        var newdata =newinp.value;
-        console.log(newdata);
-        if(inp!=null)
-        {
-            a.splice((index),0,newdata)
-            localStorage.setItem("todos", JSON.stringify(a));  
-        }
-        else{
-            a.splice((index),0,h3)
-            localStorage.setItem("todos", JSON.stringify(a));
-        }
-        e.target.parentNode.parentNode.children[1].children[1].innerHTML="edit"
-        // savetodo(inp,h1,h2)
+    else if(editSaveBtnString == 'save' && paraInputToggleElement.value !='' )
+    {
+        var paraTag = document.createElement('p');
+        parentOfParaElement.innerHTML = '';
+        parentOfParaElement.appendChild(paraTag);
+        console.log(paraInputToggleElement.value);
+        paraTag.innerHTML = paraInputToggleElement.value;
+        editSaveToggleBtn.innerText = 'edit';
+        todo[index]=paraInputToggleElement.value;
+        localStorage.setItem('todos',JSON.stringify(todo));
+
     }
+    else {
+        alert('Enter the value')
+    }
+
+    
 }
     
