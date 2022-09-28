@@ -74,6 +74,7 @@ function eventhandler(event){
     textshow.value=""
     crossbutton.addEventListener("click",removehandler)
     checkbutton.addEventListener("click",edithandler)
+    checkbox.addEventListener("click",checkhandler)
     }
 }
 
@@ -150,6 +151,7 @@ todos.forEach(function(value){   //foreach
     leftdiv.appendChild(leftcontainer)
     crossbutton.addEventListener("click",removehandler)
     checkbutton.addEventListener("click",edithandler)
+    checkbox.addEventListener("click",checkhandler)
 })
 
 
@@ -241,6 +243,9 @@ function edithandler(e)
         console.log(paraInputToggleElement.value);
         paraTag.innerHTML = paraInputToggleElement.value;
         editSaveToggleBtn.innerText = 'edit';
+
+
+        
         todo[index]=paraInputToggleElement.value;
         localStorage.setItem('todos',JSON.stringify(todo));
 
@@ -251,4 +256,15 @@ function edithandler(e)
 
     
 }
+
+
+///checkbox
+  function checkhandler(e){
+    todoValue=e.target.parentNode.parentNode.children[0].children[0].innerText;
+    console.log(todoValue);
+    if(e.target.checked===true)
+    {
+        todoValue.style.textDecoration='line-through';
+    }
+  }
     
